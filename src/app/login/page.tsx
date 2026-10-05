@@ -3,7 +3,7 @@
 import { Button } from '@/src/components';
 
 export default function LoginPage() {
-  function handleLogin(event) {
+  function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     // console.log(event);
@@ -15,8 +15,8 @@ export default function LoginPage() {
     // console.log(event.target.email.value);
     // console.log(event.target.password.value);
 
-    const email = event.target.email.value;
-    const password = event.target.password.value;
+    const email = event.currentTarget.email.value;
+    const password = event.currentTarget.password.value;
 
     console.log(email);
     console.log(password);
