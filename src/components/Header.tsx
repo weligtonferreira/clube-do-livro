@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 interface HeaderProps {
   title: string;
 }
@@ -12,16 +14,16 @@ export function Header(props: HeaderProps) {
       <nav>
         <ul className='flex gap-4'>
           <li>
-            <a href='#'>Home</a>
+            <Link href=''>Home</Link>
           </li>
           <li>
-            <a href='#produtos'>Produtos</a>
+            <Link href='/produtos'>Produtos</Link>
           </li>
           <li>
-            <a href='#contatos'>Contatos</a>
+            <Link href='/contatos'>Contatos</Link>
           </li>
           <li>
-            <a href='#sobre'>Sobre</a>
+            <Link href='/sobre'>Sobre</Link>
           </li>
         </ul>
       </nav>
