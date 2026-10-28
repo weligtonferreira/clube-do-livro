@@ -21,3 +21,11 @@ html,
 body {
   min-height: 100vh; /* vh -> viewport height */
 }
+
+@utility register-input {
+  @apply text-zinc-400 focus:text-zinc-500 border border-zinc-300 focus:border-zinc-400 p-4 rounded-full outline-none;
+}
+
+@utility register-button {
+  @apply mt-2 bg-cyan-800 hover:bg-cyan-700 transition-colors duration-300 text-white p-4 rounded-full cursor-pointer;
+}
