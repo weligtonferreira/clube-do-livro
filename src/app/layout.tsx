@@ -9,8 +9,8 @@ const interSans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Clube do livro',
-  description: 'Clube do livro da FAP',
+  title: 'Fundamentos do Next.js',
+  description: 'Fundamentos Next.js',
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
