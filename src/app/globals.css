@@ -29,3 +29,11 @@ body {
 @utility register-button {
   @apply mt-2 bg-cyan-800 hover:bg-cyan-700 transition-colors duration-300 text-white p-4 rounded-full cursor-pointer;
 }
+
+@utility selected-button {
+  @apply px-2 py-1 border border-transparent bg-sky-700 hover:bg-sky-800 transition-all text-white rounded-md cursor-pointer;
+}
+
+@utility not-selected-button {
+  @apply px-2 py-1 border border-zinc-400 hover:border-sky-700 transition-all rounded-md cursor-pointer;
+}
