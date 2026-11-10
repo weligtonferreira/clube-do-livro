@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+
+import { ThemeProvider } from '../contexts/theme';
+import { ChangeThemeButton } from '../components';
 import './globals.css';
 
 const interSans = Inter({
@@ -16,7 +19,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang='en' className={`${interSans.variable} h-full antialiased`}>
-      <body className='min-h-full flex flex-col'>{children}</body>
+      <body className='min-h-full flex flex-col'>
+        <ThemeProvider>
+          <ChangeThemeButton />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
