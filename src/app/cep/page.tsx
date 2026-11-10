@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import './style.css';
 
 type CepProperties = {
@@ -33,12 +33,8 @@ export default function CepPage() {
     }
   }
 
-  // useEffect(() => {
-  //   fetchCEP();
-  // }, []);
-
-  function handleCEPInput(event) {
-    const currentTarget = event.target as HTMLInputElement;
+  function handleCEPInput(event: ChangeEvent<HTMLInputElement>) {
+    const currentTarget = event.target;
     const currentValueInput = currentTarget.value.replace(/\D/g, '');
 
     setCep(currentValueInput);
