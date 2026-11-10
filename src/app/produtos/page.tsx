@@ -5,6 +5,7 @@ import { HiMiniQueueList } from 'react-icons/hi2';
 import { TbColumns3Filled } from 'react-icons/tb';
 
 import { ProductCard } from '@/src/components/ProductCard';
+import { useTheme } from '@/src/hooks/useTheme';
 import { PRODUCTS } from '@/src/utils/products';
 
 type ProductsDisponibilityOptions = 'Todos' | 'Disponíveis' | 'Indisponíveis';
@@ -16,6 +17,7 @@ export default function ProductsPage() {
     useState<ProductsDisponibilityOptions>('Todos');
   const [productsViewType, setProductsViewType] =
     useState<ProductsViewTypes>('List');
+  const { theme } = useTheme();
 
   function restoreProductsList() {
     setProducts(PRODUCTS);
@@ -46,8 +48,14 @@ export default function ProductsPage() {
   }
 
   return (
-    <main className='flex flex-col gap-5 p-10 items-center justify-start min-h-screen'>
-      <h1 className='text-3xl font-bold text-zinc-700'>Produtos</h1>
+    <main
+      className={`flex flex-col gap-5 p-10 items-center justify-start min-h-screen ${theme == 'light' ? 'bg-white' : 'bg-zinc-800'} transition-colors duration-300`}
+    >
+      <h1
+        className={`text-3xl font-bold ${theme == 'light' ? 'text-zinc-700' : 'text-white'} transition-colors duration-300`}
+      >
+        Produtos
+      </h1>
 
       <div className='flex gap-2 relative'>
         <div className='absolute top-2 -right-10'>
@@ -71,7 +79,7 @@ export default function ProductsPage() {
             setSelectedButton('Todos');
             restoreProductsList();
           }}
-          className={`${selectedButton === 'Todos' ? 'selected-button' : 'not-selected-button'}`}
+          className={`${selectedButton === 'Todos' ? 'selected-button' : 'not-selected-button'} ${theme == 'light' ? '' : 'text-white'}`}
         >
           Todos
         </button>
@@ -81,7 +89,7 @@ export default function ProductsPage() {
             setSelectedButton('Disponíveis');
             selectAvailableProducts();
           }}
-          className={`${selectedButton === 'Disponíveis' ? 'selected-button' : 'not-selected-button'}`}
+          className={`${selectedButton === 'Disponíveis' ? 'selected-button' : 'not-selected-button'} ${theme == 'light' ? '' : 'text-white'}`}
         >
           Disponíveis
         </button>
@@ -91,7 +99,7 @@ export default function ProductsPage() {
             setSelectedButton('Indisponíveis');
             selectUnavailableProducts();
           }}
-          className={`${selectedButton === 'Indisponíveis' ? 'selected-button' : 'not-selected-button'}`}
+          className={`${selectedButton === 'Indisponíveis' ? 'selected-button' : 'not-selected-button'} ${theme == 'light' ? '' : 'text-white'}`}
         >
           Indisponíveis
         </button>
