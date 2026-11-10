@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 interface ProductCardProps {
   imageUrl: string;
   title: string;
@@ -7,6 +5,7 @@ interface ProductCardProps {
   price: number;
   quantity?: number;
   isAvailable: boolean;
+  theme: 'light' | 'dark';
 }
 
 export function ProductCard({
@@ -15,9 +14,12 @@ export function ProductCard({
   description,
   price,
   isAvailable,
+  theme = 'light',
 }: ProductCardProps) {
   return (
-    <div className='flex flex-col items-center gap-1 p-4 h-auto w-60 border border-zinc-400 hover:border-sky-800 rounded-lg transition-all'>
+    <div
+      className={`flex flex-col items-center gap-1 p-4 h-auto w-60 border rounded-lg transition-all ${theme == 'light' ? 'bg-white border-zinc-400 hover:border-sky-800' : 'bg-white border-zinc-600 hover:border-sky-800'}`}
+    >
       <img src={imageUrl} alt={title} className='max-h-32' />
       <h2 className='font-bold text-lg text-sky-800'>{title}</h2>
 
