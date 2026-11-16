@@ -22,7 +22,9 @@ type ThemeProviderProps = {
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const currentTheme: ThemesOptions =
-    (localStorage.getItem('theme') as ThemesOptions) ?? 'light';
+    (typeof window !== 'undefined'
+      ? (localStorage.getItem('theme') as ThemesOptions)
+      : null) ?? 'light';
   const [theme, setTheme] = useState<ThemesOptions>(currentTheme);
 
   function setLightTheme() {
