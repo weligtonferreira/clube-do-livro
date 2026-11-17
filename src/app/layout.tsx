@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 
 import { ThemeProvider } from '../contexts/theme';
 import { ChangeThemeButton } from '../components';
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html lang='en' className={`${interSans.variable} h-full antialiased`}>
       <body className='min-h-full flex flex-col'>
         <ThemeProvider>
+          <ToastContainer />
           <ChangeThemeButton />
           {children}
         </ThemeProvider>
