@@ -1,6 +1,8 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
+
+import { api } from '@/src/http/api';
 import './style.css';
 
 type CepProperties = {
@@ -25,9 +27,17 @@ export default function CepPage() {
 
   async function fetchCEP() {
     try {
-      await fetch(`https://viacep.com.br/ws/${cep}/json/`)
-        .then((response) => response.json())
-        .then((data) => (data.erro ? alert('CEP inválido!') : setLocal(data)));
+      // Usando Fetch API
+      // await fetch()
+      //   .then((response) => response.json())
+      //   .then((data) => (data.erro ? alert('CEP inválido!') : setLocal(data)));
+
+      // Usando a biblioteca Axios
+      await api
+        .get(`https://viacep.com.br/ws/${cep}/json/`)
+        .then((response) =>
+          response.data.erro ? alert('CEP inválido!') : setLocal(response.data),
+        );
     } catch (error) {
       console.log(error);
     }
