@@ -1,14 +1,29 @@
 'use client';
 
-import { SubmitEvent, useState } from 'react';
-import { IoMdClose } from 'react-icons/io';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
+
+import { Modal } from '@/src/components/Modal';
+import { createUserSchema } from '@/src/utils/schemas/createUserSchema';
+import { ToastPopups } from '@/src/utils/toast-popups';
+
+type CreateUserZodType = z.infer<typeof createUserSchema>;
 
 export default function RegisterPage() {
-  const [nome, setNome] = useState<string | undefined>();
-  const [sobrenome, setSobrenome] = useState<string | undefined>();
-  const [email, setEmail] = useState<string | undefined>();
-  const [dataNascimento, setDataNascimento] = useState<string | undefined>();
-  const [senha, setSenha] = useState<string | undefined>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(createUserSchema),
+  });
+
+  const nome = watch('nome');
+  const sobrenome = watch('sobrenome');
+
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   function showModal() {
@@ -19,8 +34,13 @@ export default function RegisterPage() {
     setIsModalVisible(false);
   }
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function handleCreateUser(createUserData: CreateUserZodType) {
+    // usando popup com toastfy
+    ToastPopups.notifySuccess(
+      `${createUserData.nome} ${createUserData.sobrenome} cadastrado com sucesso!`,
+    );
+
+    // apresentando mensagem com modal
     showModal();
   }
 
@@ -30,48 +50,86 @@ export default function RegisterPage() {
         Faça o seu cadastro
       </h1>
 
-      <form onSubmit={handleSubmit} className='flex flex-col gap-1'>
+      <form
+        onSubmit={handleSubmit(handleCreateUser)}
+        className='flex flex-col gap-1'
+      >
         <div className='flex gap-1'>
-          <input
-            type='text'
-            name='nome'
-            placeholder='Nome'
-            onChange={(e) => setNome(e.currentTarget.value)}
-            className='register-input'
-          />
+          <div className='flex flex-col gap-1'>
+            <input
+              type='text'
+              placeholder='Nome'
+              className='register-input'
+              {...register('nome')}
+            />
+            {errors.nome?.message && (
+              <span className='text-red-600 text-xs ml-4 mb-1'>
+                {errors.nome.message}
+              </span>
+            )}
+          </div>
 
-          <input
-            type='text'
-            name='sobrenome'
-            placeholder='Sobrenome'
-            onChange={(e) => setSobrenome(e.currentTarget.value)}
-            className='register-input'
-          />
+          <div className='flex flex-col gap-1'>
+            <input
+              type='text'
+              placeholder='Sobrenome'
+              className='register-input'
+              {...register('sobrenome')}
+            />
+            {errors.sobrenome?.message && (
+              <span className='text-red-600 text-xs ml-4 mb-1'>
+                {errors.sobrenome.message}
+              </span>
+            )}
+          </div>
         </div>
 
-        <input
-          type='email'
-          name='email'
-          placeholder='Email'
-          onChange={(e) => setEmail(e.currentTarget.value)}
-          className='register-input'
-        />
+        <div className='flex flex-col gap-1'>
+          <input
+            type='email'
+            placeholder='Email'
+            className='register-input'
+            {...register('email')}
+          />
+          {errors.email?.message && (
+            <span className='text-red-600 text-xs ml-4 mb-1'>
+              {errors.email.message}
+            </span>
+          )}
+        </div>
 
-        <input
-          type='date'
-          name='dataNascimento'
-          placeholder='Data de Nascimento'
-          onChange={(e) => setDataNascimento(e.currentTarget.value)}
-          className='register-input'
-        />
+        <div className='flex flex-col gap-1'>
+          <input
+            type='date'
+            placeholder='Data de Nascimento'
+            className='register-input'
+            {...register('dataNascimento')}
+          />
+          {errors.dataNascimento?.message && (
+            <span className='text-red-600 text-xs ml-4 mb-1'>
+              {errors.dataNascimento.message}
+            </span>
+          )}
+        </div>
 
-        <input
-          type='password'
-          name='senha'
-          placeholder='Senha'
-          onChange={(e) => setSenha(e.currentTarget.value)}
-          className='register-input'
-        />
+        <div className='flex flex-col gap-1'>
+          <input
+            type='password'
+            placeholder='Senha'
+            className='register-input'
+            {...register('senha', {
+              minLength: {
+                value: 8,
+                message: 'Informe pelo menos 8 caracteres',
+              },
+            })}
+          />
+          {errors.senha?.message && (
+            <span className='text-red-600 text-xs ml-4 mb-1'>
+              {errors.senha.message}
+            </span>
+          )}
+        </div>
 
         <button type='submit' className='register-button'>
           Cadastrar
@@ -79,19 +137,15 @@ export default function RegisterPage() {
       </form>
 
       {isModalVisible ? (
-        <div className='absolute top-0 left-0 backdrop-blur-[2px] bg-black/20 min-h-screen min-w-screen'>
-          <div className='bg-white absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-lg p-8 max-w-2xl'>
-            <IoMdClose
-              size={16}
-              onClick={() => hideModal()}
-              className='absolute top-2 right-2 cursor-pointer hover:text-red-500 transition-colors'
-            />
-            <span className='text-zinc-700'>
-              Parabéns, {nome} {sobrenome}, seu cadastro foi realizado com
-              sucesso!
+        <Modal onClose={hideModal}>
+          <span className='text-zinc-700'>
+            Parabéns,{' '}
+            <span className='text-cyan-800 font-bold'>
+              {nome} {sobrenome}
             </span>
-          </div>
-        </div>
+            , seu cadastro foi realizado com sucesso!
+          </span>
+        </Modal>
       ) : null}
     </main>
   );
