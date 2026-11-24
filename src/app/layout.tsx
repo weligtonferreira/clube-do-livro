@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 
-import { ThemeProvider } from '../contexts/theme';
+import { AppProvider } from '../contexts';
 import { ChangeThemeButton } from '../components';
 import './globals.css';
 
@@ -21,11 +21,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang='en' className={`${interSans.variable} h-full antialiased`}>
       <body className='min-h-full flex flex-col'>
-        <ThemeProvider>
+        <AppProvider>
           <ToastContainer />
           <ChangeThemeButton />
           {children}
-        </ThemeProvider>
+        </AppProvider>
       </body>
     </html>
   );
